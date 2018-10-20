@@ -1,0 +1,13 @@
+# Add thit to your .bashrc to start using.
+
+alias tl='tmux list-sessions'
+
+function t {
+  if [ -z $1 ]; then
+    tmux
+  else
+    tmux attach -d -t $1;
+  fi
+}
+
+export -f t

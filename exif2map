@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# A simple utility to extract GPS information from files & display on Google Maps & OSM
+
+exiftool &>/dev/null || ( echo "Please make sure exiftool is installed." && exit 1 )
+
+if [ ! -f "$1" ]; then
+echo "File not found" && exit 1
+fi
+
+gps_info=$(exiftool -c "%.6f" -gpscoordinates "$1"| grep GPS)
+
+if [ $? -eq 0 ]; then
+    lat_long=$(echo "$gps_info" | awk -F "[:,]" '{print $2","$3}')
+    google-chrome "https://nominatim.openstreetmap.org/search.php?q=$lat_long&polygon_geojson=1&viewbox="
+    google-chrome "https://www.google.com/maps/search/$lat_long"
+else
+    echo "No GPS data found in the file."
+fi

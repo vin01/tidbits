@@ -7,7 +7,7 @@ import cfscrape
 
 OBB_URL = "https://openbugbounty.org/search"
 
-HEADERS = {
+headers = {
     'User-Agent': 'obb-cli'
 }
 
@@ -30,7 +30,7 @@ class SearchOBB(object):
             for domain in domains:
                 req = requests.get(
                     OBB_URL, params='search=%s&type=host' % (domain),
-                    headers=HEADERS
+                    headers=headers
                 )
                 soup = BeautifulSoup(req.content, 'html.parser')
                 data_table = soup.find(
@@ -38,6 +38,7 @@ class SearchOBB(object):
                 if not data_table:
                     return "No results found."
                 rows = data_table.find_all('tr')
+                cookies = {}
                 for row in rows:
                     cols = row.find_all('td')
                     link = cols[0].find('a')
@@ -53,13 +54,14 @@ class SearchOBB(object):
                         print('%-20s%-15s%-25s%-30s' %
                               (cols[0], cols[3], cols[4], href))
                     if cols[3] == "unpatched" and payload:
-                        tokens = cfscrape.get_tokens(href)
-                        COOKIES = tokens[0]
-                        HEADERS['User-Agent']=tokens[1]
+                        if not cookies:
+                            tokens = cfscrape.get_tokens(href)
+                            cookies = tokens[0]
+                            headers['User-Agent']=tokens[1]
                         payload_req = requests.get(
                             href,
-                            headers=HEADERS,
-                            cookies=COOKIES
+                            headers=headers,
+                            cookies=cookies
                         )
                         payload_soup = BeautifulSoup(
                             payload_req.content, 'html.parser')

@@ -8,7 +8,7 @@ if [ ! -f "$1" ]; then
 echo "File not found" && exit 1
 fi
 
-gps_info=$(exiftool -c "%.6f" -gpscoordinates "$1"| grep GPS)
+gps_info=$(exiftool -c "%.6f" -gpsposition -gpscoordinates "$1"| grep -m 1 GPS)
 
 if [ $? -eq 0 ]; then
     lat_long=$(echo "$gps_info" | awk -F "[:,]" '{print $2","$3}')

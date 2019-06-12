@@ -29,4 +29,4 @@ def dns_capture(pkt):
             print("Query: %s, %s (no results)" % (query_domain, query_type))
 
 
-sniff(iface=["wlp58s0"], filter="port 53", prn=dns_capture, store=0)
+sniff(filter="port 53", prn=dns_capture, store=0)

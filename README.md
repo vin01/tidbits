@@ -1,1 +1,1 @@
-A collection of quick hacks to make life simpler and faster.
+A collection of quick hacks, scripts to speed up daily terminal life.

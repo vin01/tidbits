@@ -1,4 +1,4 @@
-#!/usr/bin/env ython3
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 from scapy.all import sniff,DNS,DNSRR,IP,DNSQR

@@ -1,0 +1,7 @@
+requests
+fire
+scapy
+bs4
+cfscrape
+xmpp
+pyotp
